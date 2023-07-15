@@ -1,7 +1,7 @@
 # 😠 enuffbotting 😠
 stop making this it's annoying me omg pls pls pls.
 
-# fuck you, bots run the net 🎉
+# 🎉 fuck you, bots run the net 🎉
 - login through cookie lists
   - extract cookies from files and put into big list and use them each iteration.
 
