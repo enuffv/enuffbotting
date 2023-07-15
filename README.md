@@ -1,5 +1,5 @@
-# 😠 enuffbotting 😠
-stop making this it's annoying me omg pls pls pls.
+  # 😠 enuffbotting 😠
+  stop making this it's bad for creator pls pls
 
 # 🎉 fuck you, bots run the net 🎉
 - login through cookie lists
