@@ -1,0 +1,27 @@
+{
+  "name": "command-exist",
+  "version": "1.0.0",
+  "description": "check shell command exist",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'No test'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AntSworD/command-exist.git"
+  },
+  "keywords": [
+    "shell",
+    "command",
+    "exist"
+  ],
+  "author": "AntSworD (zhengjj.asd@gmail.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AntSworD/command-exist/issues"
+  },
+  "homepage": "https://github.com/AntSworD/command-exist#readme",
+  "dependencies": {
+    "shelljs": "^0.7.4"
+  }
+}
