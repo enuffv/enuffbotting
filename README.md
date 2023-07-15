@@ -15,3 +15,8 @@ stop this at once, youtubers dont like this and nor do i.
 - like comments
 - mass promote on rival videos
     - can use your channel and promo, or other that say your name.
+
+
+# ⚠️ ANNOYING ASF WARNING ⚠️
+this is not to be used badly, this isn't about spam, it's just about showing capabilities.
+hate warnings but you don't gotta read this, just saying to keep this shit up.
