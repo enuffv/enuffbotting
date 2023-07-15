@@ -18,4 +18,4 @@
 
 # 
 
-this just shows the possibilities. Don't use this to other people, only yourself for research.
+this is not to be used maliciously and only on your own videos as it's not meant to spread youtube with bot behaviour.
