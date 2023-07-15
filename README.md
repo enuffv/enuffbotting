@@ -1,15 +1,12 @@
-# 😠 enuffbotting 😠
-stop this at once, youtubers dont like this and nor do i.
-
-# 🎉fuck you, bots run the net 🎉
+# 🎉in development: Self bot promo 🎉
 - login through cookie lists
   - extract cookies from files and put into big list and use them each iteration.
 
-- Bot usages
+- Usages
   - automatically comment, like video, watchtime.
   - manually do the same, but with certain options in config file.
 
-# coming soon.
+# Coming Soon:
 - decent sub bot
 - reply to comments
 - like comments
@@ -18,6 +15,6 @@ stop this at once, youtubers dont like this and nor do i.
 
 
 
+
 # ⚠️ ANNOYING ASF WARNING ⚠️
-this is not to be used badly, this isn't about spam, it's just about showing capabilities.
-hate warnings but you don't gotta read this, just saying to keep this shit up.
+this just shows the possibilities. Don't use this to other people, only yourself for research.
