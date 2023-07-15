@@ -25,6 +25,10 @@ puppeteer.use(StealthPlugin);
 const paths = `${process.cwd()}/ublock`;
 const delay = () => new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * 30000)));
 
+const certaindelay = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  };
+  
 StealthPlugin.enabledEvasions.delete('iframe.contentWindow');
 ['chrome.runtime', 'navigator.languages'].forEach((a) => StealthPlugin.enabledEvasions.delete(a));
 
@@ -269,10 +273,10 @@ async function autoyt(browserconfig) {
 
         await page.goto(config.profile);
         await delay();
+          
         await page.click(selector.videosTab);
-
-
         await delay();
+
         const linked = await page.$$eval('#contents #video-title', (videoTitles) => {
             return videoTitles.map((title) => {
               return {
@@ -281,79 +285,105 @@ async function autoyt(browserconfig) {
               };
             });
           });
-      
-          console.log(`FOUND: ${linked.length} LINKS`);
-      
-          const link = linked.sort(() => Math.random() - Math.random()).slice(0, linked.length);
-          for (let j = 0; j < link.length; j++) {
-            if (readLog().includes(link[j].url)) {
+          
+          const randomCount = Math.floor(Math.random() * 4) + 2; // Random count between 2 and 5
+          const links = linked.sort(() => Math.random() - Math.random()).slice(0, randomCount);
+          
+          console.log(`FOUND: ${links.length} LINKS`);
+          
+          const urls = links.map((link) => link.url); // Extract URLs from links array
+          
+          for (let j = 0; j < urls.length; j++) {
+            const url = urls[j];
+            if (readLog().includes(url)) {
               console.log('The video has been commented..');
               continue;
             }
-      
+          
             console.log('Now commenting on the video..');
-            const tweet = link[j].url;
-            const title = link[j].title;
-            await page.goto(tweet);
-
+            await page.goto(url);
+      
             // Wait for the video to load
-            await newPage.waitForSelector('#movie_player > div.html5-video-container > video');
-
+            await page.waitForNavigation({ waitUntil: 'networkidle0' });
+      
+            // Retrieve the text of the video's time duration
+            const durationText = await page.$eval('span.ytp-time-duration', (element) => element.textContent);
+      
+            // Convert the duration to seconds and calculate the wait time as half of that
+            const durationInSeconds = convertions(durationText);
+            const waitTime = durationInSeconds / 2;
+            await page.waitForTimeout(waitTime * 1000);
+      
             // Get the video duration
-            const videoDuration = await newPage.evaluate(() => {
-                const video = document.querySelector('video');
-                return video.duration;
+            const videoDuration = await page.evaluate(() => {
+              const video = document.querySelector('video');
+              return video.duration;
             });
-
+      
             // Watch half of the video
-            await newPage.waitForTimeout(videoDuration * 0.5 * 1000);
-
+            await page.waitForTimeout(videoDuration * 0.5 * 1000);
+      
             // Scroll down to load more comments
-            await newPage.evaluate(() => {
-                const commentsSection = document.querySelector('#comments');
-                commentsSection.scrollIntoView({
-                    behavior: 'smooth'
-                });
+            await page.evaluate(() => {
+              const commentsSection = document.querySelector('#comments');
+              commentsSection.scrollIntoView({
+                behavior: 'smooth'
+              });
             });
-
+      
             // Get the total comment count
-            let commentCountText = await newPage.evaluate(() => {
-                const commentCountElement = document.querySelector('#count > yt-formatted-string > span:nth-child(1)');
-                return commentCountElement.innerText;
+            let commentCountText = await page.evaluate(() => {
+              const commentCountElement = document.querySelector('#count > yt-formatted-string > span:nth-child(1)');
+              return commentCountElement.innerText;
             });
-
+      
             // Like the bot's own comment
             if (commentCountText === "0") {
-                await newPage.click(selector.likeComment);
-                await delay(Math.floor(Math.random() * 4000) + 2000);
+              await page.click(selector.likeComment);
+              await delay(Math.floor(Math.random() * 4000) + 2000);
             }
-
+      
             // Scroll up
-            await newPage.evaluate(() => {
-                window.scrollBy(0, -500);
+            await page.evaluate(() => {
+              window.scrollBy(0, -500);
             });
-
+      
             // Like the video
-            await newPage.click(selector.likeVideo);
-
+            await page.click(selector.likeVideo);
+      
             // Watch the rest of the video
             const remainingVideoTime = videoDuration - (videoDuration * 0.5);
-            await newPage.waitForTimeout(remainingVideoTime * 1000);
+            await page.waitForTimeout(remainingVideoTime * 1000);
             completedVideos.add(index);
-
+      
             // Go back to the previous page (YouTube homepage)
-            await newPage.goBack();
-
+            await page.goBack();
+      
             // Close the video tab
-            await newPage.close();
-
+            await page.close();
+      
             // Mark the video URL as completed
-            completedVideos.add(videoLink);
+            completedVideos.add(currentVideo.url);
         }
 
         currentIndex++; // Move to the next cookie set
         await browser.close();
     }
+}
+
+// Helper function to convert video duration to seconds
+function convertions(durationText) {
+    const timeParts = durationText.split(':');
+    const hours = parseInt(timeParts[0]) || 0;
+    const minutes = parseInt(timeParts[1]) || 0;
+    const seconds = parseInt(timeParts[2]) || 0;
+  
+    return (hours * 3600) + (minutes * 60) + seconds;
+  }
+
+function readLog() {
+    const data = fs.readFileSync('./logs/succesCommenting.log', 'utf8');
+    return data;
 }
 
 const browserConfig = Config();
