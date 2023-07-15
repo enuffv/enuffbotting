@@ -230,141 +230,147 @@ async function autoyt(browserconfig) {
     const config = require('./config');
     const useProxies = config.proxies;
     let proxies = [];
-
+  
     if (useProxies) {
-        const proxiesFile = fs.readFileSync(config.proxiesFile, 'utf-8');
-        proxies = proxiesFile.split('\n');
+      const proxiesFile = fs.readFileSync(config.proxiesFile, 'utf-8');
+      proxies = proxiesFile.split('\n');
     }
-
+  
     const browser = await puppeteer.launch({
-        ...browserConfig,
-        executablePath: executablePath(),
+      ...browserConfig,
+      executablePath: executablePath(),
     });
-    const page = await browser.newPage();
-
+  
     const cookiesFile = fs.readFileSync('cookieslist.json', 'utf-8');
     const cookiesList = JSON.parse(cookiesFile);
     const totalCookieSets = cookiesList.length;
-
+  
     for (let currentIndex = 0; currentIndex < totalCookieSets; currentIndex++) {
-        const page = await browser.newPage();
-        await page.setViewport({
-            width: 1366,
-            height: 768
+      const currentCookieSet = cookiesList[currentIndex];
+      const currentProxy = useProxies ? proxies[currentIndex % proxies.length] : null;
+  
+      const page = await browser.newPage();
+      await page.setViewport({
+        width: 1366,
+        height: 768
+      });
+      await page.evaluateOnNewDocument(() => {
+        delete navigator.__proto__.webdriver;
+      });
+      await page.setUserAgent(randomUserAgent.UA());
+  
+      const cookies = currentCookieSet.map(cookie => {
+        const { sameSite, ...rest } = cookie;
+        return sameSite ? { ...rest, sameSite } : rest;
+      });
+  
+      try {
+        await page.setCookie(...cookies);
+      } catch (error) {
+        console.error('Error setting cookies:', error);
+      }
+  
+      await page.goto(config.profile);
+      await delay();
+  
+      await page.click(selector.videosTab);
+      await delay();
+  
+      const linked = await page.$$eval('a#video-title-link', (links) => {
+        return links.map((link) => {
+          return {
+            url: link.href,
+            title: link.textContent.trim()
+          };
         });
-        await page.evaluateOnNewDocument(() => {
-            delete navigator.__proto__.webdriver;
-        });
-        await page.setUserAgent(randomUserAgent.UA());
-
-        const currentCookieSet = cookiesList[currentIndex];
-        const currentProxy = useProxies ? proxies[currentIndex % proxies.length] : null;
-
-        const cookies = currentCookieSet.map(cookie => {
-            const {sameSite, ...rest} = cookie;
-            return sameSite ? {...rest, sameSite} : rest;
-        });
-
-        try {
-            await page.setCookie(...cookies);
-        } catch (error) {
-            console.error('Error setting cookies:', error);
+      });
+  
+      const randomCount = Math.floor(Math.random() * 4) + 2; // Random count between 2 and 5
+      const links = linked.slice(0, randomCount);
+  
+      console.log(`FOUND: ${links.length} LINKS`);
+  
+      for (let j = 0; j < links.length; j++) {
+        const link = links[j];
+        if (readLog().includes(link.url)) {
+          console.log('The video has been commented.');
+          continue;
         }
-
-        await page.goto(config.profile);
-        await delay();
-          
-        await page.click(selector.videosTab);
-        await delay();
-
-        const linked = await page.$$eval('#contents #video-title', (videoTitles) => {
-            return videoTitles.map((title) => {
-              return {
-                url: title.href,
-                title: title.textContent.trim()
-              };
+  
+        console.log('Now commenting on the video..');
+  
+        try {
+          const url = link.url;
+          await page.goto(url);
+  
+          // Perform further actions for commenting on the video
+          // ...
+  
+          // Wait for the video to load
+          await page.waitForNavigation({ waitUntil: 'networkidle0' });
+  
+          // Retrieve the text of the video's time duration
+          const durationText = await page.$eval('span.ytp-time-duration', (element) => element.textContent);
+  
+          // Convert the duration to seconds and calculate the wait time as half of that
+          const durationInSeconds = convertions(durationText);
+          const waitTime = durationInSeconds / 2;
+          await page.waitForTimeout(waitTime * 1000);
+  
+          // Get the video duration
+          const videoDuration = await page.evaluate(() => {
+            const video = document.querySelector('video');
+            return video.duration;
+          });
+  
+          // Watch half of the video
+          await page.waitForTimeout(videoDuration * 0.5 * 1000);
+  
+          // Scroll down to load more comments
+          await page.evaluate(() => {
+            const commentsSection = document.querySelector('#comments');
+            commentsSection.scrollIntoView({
+              behavior: 'smooth'
             });
           });
-          
-          const randomCount = Math.floor(Math.random() * 4) + 2; // Random count between 2 and 5
-          const links = linked.sort(() => Math.random() - Math.random()).slice(0, randomCount);
-          
-          console.log(`FOUND: ${links.length} LINKS`);
-          
-          const urls = links.map((link) => link.url); // Extract URLs from links array
-          
-          for (let j = 0; j < urls.length; j++) {
-            const url = urls[j];
-            if (readLog().includes(url)) {
-              console.log('The video has been commented..');
-              continue;
-            }
-          
-            console.log('Now commenting on the video..');
-            await page.goto(url);
-      
-            // Wait for the video to load
-            await page.waitForNavigation({ waitUntil: 'networkidle0' });
-      
-            // Retrieve the text of the video's time duration
-            const durationText = await page.$eval('span.ytp-time-duration', (element) => element.textContent);
-      
-            // Convert the duration to seconds and calculate the wait time as half of that
-            const durationInSeconds = convertions(durationText);
-            const waitTime = durationInSeconds / 2;
-            await page.waitForTimeout(waitTime * 1000);
-      
-            // Get the video duration
-            const videoDuration = await page.evaluate(() => {
-              const video = document.querySelector('video');
-              return video.duration;
-            });
-      
-            // Watch half of the video
-            await page.waitForTimeout(videoDuration * 0.5 * 1000);
-      
-            // Scroll down to load more comments
-            await page.evaluate(() => {
-              const commentsSection = document.querySelector('#comments');
-              commentsSection.scrollIntoView({
-                behavior: 'smooth'
-              });
-            });
-      
-            // Get the total comment count
-            let commentCountText = await page.evaluate(() => {
-              const commentCountElement = document.querySelector('#count > yt-formatted-string > span:nth-child(1)');
-              return commentCountElement.innerText;
-            });
-      
-            // Like the bot's own comment
-            if (commentCountText === "0") {
-              await page.click(selector.likeComment);
-              await delay(Math.floor(Math.random() * 4000) + 2000);
-            }
-      
-            // Scroll up
-            await page.evaluate(() => {
-              window.scrollBy(0, -500);
-            });
-      
-            // Like the video
-            await page.click(selector.likeVideo);
-      
-            // Watch the rest of the video
-            const remainingVideoTime = videoDuration - (videoDuration * 0.5);
-            await page.waitForTimeout(remainingVideoTime * 1000);
-            completedVideos.add(index);
-      
-            // Go back to the previous page (YouTube homepage)
-            await page.goBack();
-      
-            // Close the video tab
-            await page.close();
-      
-            // Mark the video URL as completed
-            completedVideos.add(currentVideo.url);
+  
+          // Get the total comment count
+          let commentCountText = await page.evaluate(() => {
+            const commentCountElement = document.querySelector('#count > yt-formatted-string > span:nth-child(1)');
+            return commentCountElement.innerText;
+          });
+  
+          // Like the bot's own comment
+          if (commentCountText === "0") {
+            await page.click(selector.likeComment);
+            await delay(Math.floor(Math.random() * 4000) + 2000);
+          }
+  
+          // Scroll up
+          await page.evaluate(() => {
+            window.scrollBy(0, -500);
+          });
+  
+          // Like the video
+          await page.click(selector.likeVideo);
+  
+          // Watch the rest of the video
+          const remainingVideoTime = videoDuration - (videoDuration * 0.5);
+          await page.waitForTimeout(remainingVideoTime * 1000);
+  
+          // Go back to the previous page (YouTube homepage)
+          await page.goBack();
+  
+          // Close the video tab
+          await page.close();
+  
+          // Mark the video URL as completed
+          completedVideos.add(link.url);
+        } catch (error) {
+          console.error('Error navigating to URL:', error);
+          continue;
         }
+      }
 
         currentIndex++; // Move to the next cookie set
         await browser.close();
