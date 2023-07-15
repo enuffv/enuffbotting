@@ -1,7 +1,7 @@
-  # 😠 enuffbotting 😠
-  stop making this it's bad for creator pls pls
+# 😠 enuffbotting 😠
+stop this at once, youtubers dont like this and nor do i.
 
-# 🎉 fuck you, bots run the net 🎉
+# 🎉fuck you, bots run the net 🎉
 - login through cookie lists
   - extract cookies from files and put into big list and use them each iteration.
 
