@@ -1,6 +1,5 @@
 module.exports = {
-    cookiesList: './cookieslist.json',
-    profile: 'https://www.youtube.com/@ouounegr',
+    profile: 'https://www.youtube.com/@smosh',
     subscribe: false,
     likeAmount: 3,       // KEEP AS NUMBER FOR AMOUNT TO LIKE.
     commentAmount: 3,    // KEEP AS NUMBER FOR AMOUNT TO COMMENT.
@@ -10,9 +9,11 @@ module.exports = {
 
     threads: 1,    // amount of instances to use at once.
     auto: true,   // CHANGE TO MANUAL FOR SPECIFIC VIDEOS OTHERWISE, AUTO DOES IT FOR ANY.
-    proxies: false,    // true/false.
-    proxiesFile: 'proxy_list.txt',
-    cookiesFile: 'cookie_list.txt',
+    proxies: true,    // true/false.
+
+
+    proxiesFile: './proxylist.txt',
+    cookiesFile: './cookieslist.json',
     commentList: 'comments.txt',
     seqComment: true,   // OTHERWISE: RANDOM COMMENT
 
