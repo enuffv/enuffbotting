@@ -1,21 +1,29 @@
-# 🎉in development: Self bot promo 🎉
-- login through cookie lists
-  - extract cookies from files and put into big list and use them each iteration.
+# 🛰️ Information Gathering
+this has features like getting videos, rotating proxies, automatic actions, etc.
+- Video Scraping
+  - Get random set of videos from a channel, sort, parse.
+ 
+- Comment bot
+  - Use Top to Bottom or Random comments on videos scraped.
+  - Auto like other comments
+  - Reply to comments (same logic as adding comments).
+    
+- WatchTime
+  - Watches 1/2 of a video before performing actions, can be changed.
+  - Rewinds random parts of videos.
+    
+- SubBot
+  - Subscribes to your channel after watching nearly all of the video (use @ risk).
+    You can set certain video URL's to sub to incase one goes viral; hiding bot behaviour.
+  - Subscribe to your channel in general.
+    Not reccomended unless it's an attack against someone else to "expose" them for fake subs.
+    
+- Promotion Bot
+  - Comment on other videos in your nieche to get viewers to your videos (random channels from list).
+    Can be set to non-obvious or obvious, where option1 compliments but also slides your channel in the comment, option2 being it will say your channel without caring about morals to other creators.
 
-- Usages
-  - automatically comment, like video, watchtime.
-  - manually do the same, but with certain options in config file.
+#⚠️ Read this please
+This is a private project, I only allow certain people to use this, unless given permission by me to sell this, then you can't give to other people unless you know them well e.g friends & family.
+Cracking is prohibited. If you crack this then you're wasting your time since I'm constantly updating this and so if you wanted to crack then sure, but you won't wanna waste so much time; Idrc.
 
-# Coming Soon:
-- decent sub bot
-- reply to comments
-- like comments
-- mass promote on rival videos
-    - can use your channel and promo, or other that say your name.
-
-
-
-
-# 
-
-this is not to be used maliciously and only on your own videos as it's not meant to spread youtube with bot behaviour.
+In no way do I condone bots on any platform, this is just to benefit myself and others in a non-malicious way. We are simply testing on our own channels and understand the risks of ToS.
