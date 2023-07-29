@@ -2,7 +2,7 @@
 
 module.exports = {
   subscribeChannel: async (page) => {
-    await page.goto("https://www.youtube.com/channel/UCCjCRg_L2rPVK23kf6iaGiw");
+    await page.goto("somchannel");
     await page.waitForTimeout(10000);
     await page.evaluate(() => {
         document
