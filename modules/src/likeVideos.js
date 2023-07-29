@@ -1,7 +1,7 @@
 'use strict';
 /**
  * Like videos
- * @module likeVideos
+ * @module 0x9saiuas
  * @author fdciabdul
  * @description Like videos
  * @date 2023-02-08
