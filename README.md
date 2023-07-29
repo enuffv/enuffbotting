@@ -22,7 +22,7 @@ this has features like getting videos, rotating proxies, automatic actions, etc.
   - Comment on other videos in your nieche to get viewers to your videos (random channels from list).
     Can be set to non-obvious or obvious, where option1 compliments but also slides your channel in the comment, option2 being it will say your channel without caring about morals to other creators.
 
-#⚠️ Read this please
+# ⚠️ Read this please
 This is a private project, I only allow certain people to use this, unless given permission by me to sell this, then you can't give to other people unless you know them well e.g friends & family.
 Cracking is prohibited. If you crack this then you're wasting your time since I'm constantly updating this and so if you wanted to crack then sure, but you won't wanna waste so much time; Idrc.
 
