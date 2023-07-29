@@ -1,7 +1,7 @@
 'use strict';
 /**
  * Manual Comment
- * @author fdciabdul
+ * @author 0x9saiuas
  * @module manualComment
  * @description Manual Comment
  * @date 2023-02-08
