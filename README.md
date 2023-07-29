@@ -1,4 +1,4 @@
-# 🛰️ Information Gathering
+# 🌐 General Functions
 this has features like getting videos, rotating proxies, automatic actions, etc.
 - Cookie Support
   - Can add cookies from your browser via extension, and then write to txt file. The bot will then sort them to be in a big list.
