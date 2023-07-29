@@ -1,5 +1,7 @@
 # 🛰️ Information Gathering
 this has features like getting videos, rotating proxies, automatic actions, etc.
+- Rotating Proxy support
+  - Skips some if it doesn't work, some might other times, but to make this better we skip ones that don't load the pages quick enough.
 - Video Scraping
   - Get random set of videos from a channel, sort, parse.
  
