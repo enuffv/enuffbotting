@@ -25,7 +25,4 @@ this has features like getting videos, rotating proxies, automatic actions, etc.
     Not reccomended unless it's an attack against someone else to "expose" them for fake subs.
 
 # ⚠️ Read this please
-This is a private project, I only allow certain people to use this, unless given permission by me to sell this, then you can't give to other people unless you know them well e.g friends & family.
-Cracking is prohibited. If you crack this then you're wasting your time since I'm constantly updating this and so if you wanted to crack then sure, but you won't wanna waste so much time; Idrc.
-
-In no way do I condone bots on any platform, this is just to benefit myself and others in a non-malicious way. We are simply testing on our own channels and understand the risks of ToS.
+Just for research, please be a good little boy and abide tos of youtube. Fuck them though fr
